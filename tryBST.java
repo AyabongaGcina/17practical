@@ -119,5 +119,23 @@ public class tryBST {
         
         return node;
     }
-    //UTILITY METHODS
+    //--------UTILITY METHODS----------
+    public int getSize() {
+        return nodeCount;
+    }
+    
+    // Printing the tree in order for verification
+     
+    public void printInOrder() {
+        printInOrderRec(root);
+        System.out.println();
+    }
+    
+    private void printInOrderRec(tNode node) {
+        if (node != null) {
+            printInOrderRec(node.left);
+            System.out.print(node.key + " ");
+            printInOrderRec(node.right);
+        }
+    }
 }
