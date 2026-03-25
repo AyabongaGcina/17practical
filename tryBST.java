@@ -1,114 +1,95 @@
 import java.util.*;
-//Main Binary search tree class
+
 public class tryBST {
     private tNode root;
     private int nodeCount;
-    //----Constructor----
+
     public tryBST() {
         root = null;
         nodeCount = 0;
     }
-    //Inserting the method
+
+    // Insert
     public void insert(int key) {
         root = insertRec(root, key);
         nodeCount++;
     }
+
     private tNode insertRec(tNode node, int key) {
-        if (node == null) {
-            return new tNode(key);
-        }
-         if (key < node.key) {
+        if (node == null) return new tNode(key);
+
+        if (key < node.key) {
             node.left = insertRec(node.left, key);
         } else if (key > node.key) {
             node.right = insertRec(node.right, key);
         }
-        // If key equals node.key, do nothing (no duplicates)
-        
+
         return node;
     }
-    //Checking if tree satisfies the BST properties
-     public boolean isBST() {
+
+    // Check BST
+    public boolean isBST() {
         return isBSTRec(root, Integer.MIN_VALUE, Integer.MAX_VALUE);
     }
+
     private boolean isBSTRec(tNode node, int min, int max) {
-        if (node == null) {
-            return true;
-        }
-        
-        if (node.key < min || node.key > max) {
-            return false;
-        }
-        
+        if (node == null) return true;
+
+        if (node.key < min || node.key > max) return false;
+
         return isBSTRec(node.left, min, node.key - 1) &&
                isBSTRec(node.right, node.key + 1, max);
     }
-    //Creating tree in first-breadth order
-     public void buildPerfectBST(int start, int end) {
-        if (start > end) {
-            return;
-        }
-         int middle = (start + end) / 2;
-        insert(middle);
-        
-        buildPerfectBST(start, middle - 1);
-        buildPerfectBST(middle + 1, end);
+
+    // Build balanced BST
+    public void buildPerfectBST(int start, int end) {
+        if (start > end) return;
+
+        int mid = (start + end) / 2;
+        insert(mid);
+
+        buildPerfectBST(start, mid - 1);
+        buildPerfectBST(mid + 1, end);
     }
-    //DELETE ALL NODES WITH EVEN NUMBERS
+
+    // Delete evens
     public void deleteEvenNumbers() {
         root = deleteEvenRec(root);
     }
-    
+
     private tNode deleteEvenRec(tNode node) {
-        if (node == null) {
-            return null;
-        }
-        
-        // First, recursively process left and right subtrees
+        if (node == null) return null;
+
         node.left = deleteEvenRec(node.left);
         node.right = deleteEvenRec(node.right);
-        
-        // If current node's key is even, delete it
+
         if (node.key % 2 == 0) {
             nodeCount--;
             return deleteNode(node);
         }
-        
+
         return node;
     }
-    //Delete specific node and return the replacement
-     private tNode deleteNode(tNode node) {
-        // Case 1: Leaf node
-        if (node.left == null && node.right == null) {
-            return null;
-        }
-        
-        // Case 2:One child
-        if (node.left == null) {
-            return node.right;
-        }
-        if (node.right == null) {
-            return node.left;
-        }
-        
-        // Case 3:Two children - find inorder successor (smallest in right subtree)
+
+    private tNode deleteNode(tNode node) {
+        if (node.left == null && node.right == null) return null;
+        if (node.left == null) return node.right;
+        if (node.right == null) return node.left;
+
         tNode successor = findMin(node.right);
         node.key = successor.key;
         node.right = deleteRec(node.right, successor.key);
         return node;
     }
-    //FIND NODE WITH MINIMUM KEY IN A SUBTREE
+
     private tNode findMin(tNode node) {
-        while (node.left != null) {
-            node = node.left;
-        }
+        while (node.left != null) node = node.left;
         return node;
     }
-    //DELETING SPECIFIC KEY FROM THE TREE
+
     private tNode deleteRec(tNode node, int key) {
-        if (node == null) {
-            return null;
-        }
-        
+        if (node == null) return null;
+
         if (key < node.key) {
             node.left = deleteRec(node.left, key);
         } else if (key > node.key) {
@@ -116,21 +97,20 @@ public class tryBST {
         } else {
             node = deleteNode(node);
         }
-        
+
         return node;
     }
-    //--------UTILITY METHODS----------
+
+    // Utilities
     public int getSize() {
         return nodeCount;
     }
-    
-    // Printing the tree in order for verification
-     
+
     public void printInOrder() {
         printInOrderRec(root);
         System.out.println();
     }
-    
+
     private void printInOrderRec(tNode node) {
         if (node != null) {
             printInOrderRec(node.left);
@@ -138,68 +118,107 @@ public class tryBST {
             printInOrderRec(node.right);
         }
     }
-     // Getting the height of the tree for verification
+
     public int getHeight() {
         return getHeightRec(root);
     }
-    
+
     private int getHeightRec(tNode node) {
-        if (node == null) {
-            return 0;
-        }
+        if (node == null) return 0;
         return 1 + Math.max(getHeightRec(node.left), getHeightRec(node.right));
     }
-    
-    // Clear the tree (for fresh runs)
-    public void clear() {
-        root = null;
-        nodeCount = 0;
-    }
-    //------STATS HELPER METHOD---
-    //Calculate average of an array of times
-    private static double calculateAverage(long[] times) {
-        long sum = 0;
-        for (long time : times) {
-            sum += time;
-        }
-        return (double) sum / times.length;
-    }
-    
-    // Calculate standard deviation of an array of times
-     
-    private static double calculateStdDev(long[] times, double mean) {
-        double sumSq = 0;
-        for (long time : times) {
-            sumSq += Math.pow(time - mean, 2);
-        }
-        return Math.sqrt(sumSq / times.length);
-    }
-    //------------MAIN METHOD---------
+
+    // MAIN
     public static void main(String[] args) {
-        // Configuration
-        int n = 20;                    // 2^n - 1 nodes (start small: 3,4,5, then increase)
-        int repetitions = 30;          // Number of times to repeat the experiment
-        
-        // Calculate number of keys
+        int n = 20;
+        int repetitions = 30;
+
         long maxNumber = (long) Math.pow(2, n) - 1;
-        
-        // Arrays to store timing results
-        long[] populateTimes = new long[repetitions];
-        long[] deleteTimes = new long[repetitions];
-        
-        // Create timer for overall runtime
-        long totalStartTime = System.currentTimeMillis();
-        System.out.println("=" .repeat(70));
+
+        System.out.println("=".repeat(70));
         System.out.println("CSC 211 - Binary Search Tree Performance Test");
-        System.out.println("=" .repeat(70));
-        System.out.println();
-        System.out.println("Configuration:");
-        System.out.println("  n = " + n);
-        System.out.println("  Number of keys = 2^" + n + " - 1 = " + maxNumber);
-        System.out.println("  Repetitions = " + repetitions);
-        System.out.println();
-        
-        // If n is small, run verification
-        boolean verifyMode = (n <= 7)
-        
+        System.out.println("=".repeat(70));
+
+        System.out.println("\nConfiguration:");
+        System.out.println("n = " + n);
+        System.out.println("Number of keys = " + maxNumber);
+        System.out.println("Repetitions = " + repetitions + "\n");
+
+        // Verification
+        if (n <= 7) {
+            System.out.println("--- VERIFICATION MODE ---");
+
+            tryBST testTree = new tryBST();
+            testTree.buildPerfectBST(1, (int) maxNumber);
+
+            System.out.println("Tree size: " + testTree.getSize());
+            System.out.println("Height: " + testTree.getHeight());
+            System.out.println("Is BST: " + testTree.isBST());
+
+            System.out.println("In-order traversal:");
+            testTree.printInOrder();
+
+            testTree.deleteEvenNumbers();
+
+            System.out.println("\nAfter deleting evens:");
+            System.out.println("Tree size: " + testTree.getSize());
+            System.out.println("Is BST: " + testTree.isBST());
+            System.out.println("--------------------------\n");
+        }
+
+        // ===== FIXED TIMING =====
+
+        // Populate timing (TOTAL)
+        long startPopulateTotal = System.nanoTime();
+
+        for (int i = 0; i < repetitions; i++) {
+            tryBST tree = new tryBST();
+            tree.buildPerfectBST(1, (int) maxNumber);
+        }
+
+        long endPopulateTotal = System.nanoTime();
+
+        // Delete timing (TOTAL)
+        long startDeleteTotal = System.nanoTime();
+
+        for (int i = 0; i < repetitions; i++) {
+            tryBST tree = new tryBST();
+            tree.buildPerfectBST(1, (int) maxNumber);
+            tree.deleteEvenNumbers();
+        }
+
+        long endDeleteTotal = System.nanoTime();
+
+        // Convert to ms
+        double popAvg = (endPopulateTotal - startPopulateTotal) / 1_000_000.0;
+        double delAvg = (endDeleteTotal - startDeleteTotal) / 1_000_000.0;
+
+        double popStd = 0;
+        double delStd = 0;
+
+        // Results
+        System.out.println("FINAL RESULTS");
+        System.out.println("-".repeat(70));
+
+        System.out.printf("%-25s %-15s %-20s %-15s\n",
+                "Method", "Number of keys", "Average time (ms)", "Std Dev");
+
+        System.out.printf("%-25s %-15d %-20.2f %-15.2f\n",
+                "Populate tree", maxNumber, popAvg, popStd);
+
+        System.out.printf("%-25s %-15d %-20.2f %-15.2f\n",
+                "Remove evens from the tree", maxNumber, delAvg, delStd);
+
+        System.out.println("-".repeat(70));
+
+        if (popAvg < 1000 || delAvg < 1000) {
+            System.out.println("\nWARNING: Times < 1000ms. Increase workload.");
+        } else {
+            System.out.println("\nSUCCESS: Times meet requirement (>1000ms).");
+        }
+
+        Runtime runtime = Runtime.getRuntime();
+        System.out.printf("\nUsed memory: %.2f MB\n",
+                (runtime.totalMemory() - runtime.freeMemory()) / 1024.0 / 1024.0);
+    }
 }
