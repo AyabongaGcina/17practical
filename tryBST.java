@@ -138,4 +138,21 @@ public class tryBST {
             printInOrderRec(node.right);
         }
     }
+     // Getting the height of the tree for verification
+    public int getHeight() {
+        return getHeightRec(root);
+    }
+    
+    private int getHeightRec(tNode node) {
+        if (node == null) {
+            return 0;
+        }
+        return 1 + Math.max(getHeightRec(node.left), getHeightRec(node.right));
+    }
+    
+    // Clear the tree (for fresh runs)
+    public void clear() {
+        root = null;
+        nodeCount = 0;
+    }
 }
