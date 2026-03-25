@@ -174,4 +174,19 @@ public class tryBST {
         }
         return Math.sqrt(sumSq / times.length);
     }
+    //------------MAIN METHOD---------
+    public static void main(String[] args) {
+        // Configuration
+        int n = 20;                    // 2^n - 1 nodes (start small: 3,4,5, then increase)
+        int repetitions = 30;          // Number of times to repeat the experiment
+        
+        // Calculate number of keys
+        long maxNumber = (long) Math.pow(2, n) - 1;
+        
+        // Arrays to store timing results
+        long[] populateTimes = new long[repetitions];
+        long[] deleteTimes = new long[repetitions];
+        
+        // Create timer for overall runtime
+        long totalStartTime = System.currentTimeMillis();
 }
