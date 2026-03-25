@@ -104,4 +104,20 @@ public class tryBST {
         return node;
     }
     //DELETING SPECIFIC KEY FROM THE TREE
+    private tNode deleteRec(tNode node, int key) {
+        if (node == null) {
+            return null;
+        }
+        
+        if (key < node.key) {
+            node.left = deleteRec(node.left, key);
+        } else if (key > node.key) {
+            node.right = deleteRec(node.right, key);
+        } else {
+            node = deleteNode(node);
+        }
+        
+        return node;
+    }
+    //UTILITY METHODS
 }
