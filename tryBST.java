@@ -157,4 +157,21 @@ public class tryBST {
     }
     //------STATS HELPER METHOD---
     //Calculate average of an array of times
+    private static double calculateAverage(long[] times) {
+        long sum = 0;
+        for (long time : times) {
+            sum += time;
+        }
+        return (double) sum / times.length;
+    }
+    
+    // Calculate standard deviation of an array of times
+     
+    private static double calculateStdDev(long[] times, double mean) {
+        double sumSq = 0;
+        for (long time : times) {
+            sumSq += Math.pow(time - mean, 2);
+        }
+        return Math.sqrt(sumSq / times.length);
+    }
 }
