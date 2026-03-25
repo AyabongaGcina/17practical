@@ -54,4 +54,27 @@ public class tryBST {
         buildPerfectBST(middle + 1, end);
     }
     //DELETE ALL NODES WITH EVEN NUMBERS
+    public void deleteEvenNumbers() {
+        root = deleteEvenRec(root);
+    }
+    
+    private tNode deleteEvenRec(tNode node) {
+        if (node == null) {
+            return null;
+        }
+        
+        // First, recursively process left and right subtrees
+        node.left = deleteEvenRec(node.left);
+        node.right = deleteEvenRec(node.right);
+        
+        // If current node's key is even, delete it
+        if (node.key % 2 == 0) {
+            nodeCount--;
+            return deleteNode(node);
+        }
+        
+        return node;
+    }
+    //Delete specific node and return the replacement
+
 }
