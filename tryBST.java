@@ -26,5 +26,6 @@ public class tryBST {
         
         return node;
     }
+    //Checking if tree satisfies the BST properties
 
 }
