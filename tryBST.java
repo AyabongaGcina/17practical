@@ -27,5 +27,20 @@ public class tryBST {
         return node;
     }
     //Checking if tree satisfies the BST properties
-
+     public boolean isBST() {
+        return isBSTRec(root, Integer.MIN_VALUE, Integer.MAX_VALUE);
+    }
+    private boolean isBSTRec(tNode node, int min, int max) {
+        if (node == null) {
+            return true;
+        }
+        
+        if (node.key < min || node.key > max) {
+            return false;
+        }
+        
+        return isBSTRec(node.left, min, node.key - 1) &&
+               isBSTRec(node.right, node.key + 1, max);
+    }
+    //Creating tree in first-breadth order
 }
