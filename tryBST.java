@@ -43,4 +43,15 @@ public class tryBST {
                isBSTRec(node.right, node.key + 1, max);
     }
     //Creating tree in first-breadth order
+     public void buildPerfectBST(int start, int end) {
+        if (start > end) {
+            return;
+        }
+         int middle = (start + end) / 2;
+        insert(middle);
+        
+        buildPerfectBST(start, middle - 1);
+        buildPerfectBST(middle + 1, end);
+    }
+    //DELETE ALL NODES WITH EVEN NUMBERS
 }
