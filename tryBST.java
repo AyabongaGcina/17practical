@@ -155,4 +155,6 @@ public class tryBST {
         root = null;
         nodeCount = 0;
     }
+    //------STATS HELPER METHOD---
+    //Calculate average of an array of times
 }
