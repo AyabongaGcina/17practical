@@ -76,5 +76,25 @@ public class tryBST {
         return node;
     }
     //Delete specific node and return the replacement
-
+     private tNode deleteNode(tNode node) {
+        // Case 1: Leaf node
+        if (node.left == null && node.right == null) {
+            return null;
+        }
+        
+        // Case 2:One child
+        if (node.left == null) {
+            return node.right;
+        }
+        if (node.right == null) {
+            return node.left;
+        }
+        
+        // Case 3:Two children - find inorder successor (smallest in right subtree)
+        tNode successor = findMin(node.right);
+        node.key = successor.key;
+        node.right = deleteRec(node.right, successor.key);
+        return node;
+    }
+    //FIND NODE WITH MINIMUM KEY IN A SUBTREE
 }
