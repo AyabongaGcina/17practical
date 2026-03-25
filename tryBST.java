@@ -97,4 +97,11 @@ public class tryBST {
         return node;
     }
     //FIND NODE WITH MINIMUM KEY IN A SUBTREE
+    private tNode findMin(tNode node) {
+        while (node.left != null) {
+            node = node.left;
+        }
+        return node;
+    }
+    //DELETING SPECIFIC KEY FROM THE TREE
 }
