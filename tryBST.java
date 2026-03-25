@@ -189,4 +189,17 @@ public class tryBST {
         
         // Create timer for overall runtime
         long totalStartTime = System.currentTimeMillis();
+        System.out.println("=" .repeat(70));
+        System.out.println("CSC 211 - Binary Search Tree Performance Test");
+        System.out.println("=" .repeat(70));
+        System.out.println();
+        System.out.println("Configuration:");
+        System.out.println("  n = " + n);
+        System.out.println("  Number of keys = 2^" + n + " - 1 = " + maxNumber);
+        System.out.println("  Repetitions = " + repetitions);
+        System.out.println();
+        
+        // If n is small, run verification
+        boolean verifyMode = (n <= 7)
+        
 }
